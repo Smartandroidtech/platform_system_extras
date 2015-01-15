@@ -63,6 +63,11 @@ LOCAL_SHARED_LIBRARIES := \
     libz
 include $(BUILD_SHARED_LIBRARY)
 
+# Some MMCs have VERY slow secure erase - use
+#standard erase instead
+ifeq ($(BOARD_SUPPRESS_SECURE_ERASE),true)
+    LOCAL_CFLAGS += -DSUPPRESS_SECURE_ERASE
+endif
 
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := $(libext4_utils_src_files)
@@ -72,6 +77,11 @@ LOCAL_STATIC_LIBRARIES += \
     libsparse_static
 include $(BUILD_STATIC_LIBRARY)
 
+# Some MMCs have VERY slow secure erase - use
+#standard erase instead
+ifeq ($(BOARD_SUPPRESS_SECURE_ERASE),true)
+    LOCAL_CFLAGS += -DSUPPRESS_SECURE_ERASE
+endif
 
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := make_ext4fs_main.c canned_fs_config.c
